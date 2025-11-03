@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Attendance System</title>
+<style>
+body{margin:0;font-family:Arial,sans-serif;background:#fafafa}
+.navbar{background:#323fd2;overflow:hidden ;display: flex ;justify-content: space-around;}
+.navbar a{float:left;display:block;color:#f2f2f2;text-align:center;padding:14px 20px;text-decoration:none}
+.navbar a:hover{background:#ddd;color:#000}
+section{padding:40px;text-align:center;display:none}
+section.active{display:block}
+table{width:80%;margin:20px auto;border-collapse:collapse;text-align:center}
+th,td{border:1px solid #000;padding:10px}
+th{background:#f2f2f2}
+form{width:300px;margin:40px auto;display:flex;flex-direction:column;gap:10px}
+input[type=text],input[type=email],select{padding:8px;border:1px solid #ccc;border-radius:4px}
+input[type=submit]{padding:10px;background:#007bff;color:#fff;border:none;border-radius:4px;cursor:pointer}
+input[type=submit]:hover{background:#0056b3}
+h1{margin-bottom:20px}
+</style>
+</head>
+<body>
+<div class="navbar">
+<a href="#" onclick="showSection('home')">Home</a>
+<a href="#" onclick="showSection('attendance')">Attendance List</a>
+<a href="#" onclick="showSection('addstudent')">Add Student</a>
+<a href="#" onclick="showSection('addstudent')">Reports </a>
+<a href="#" onclick="showSection('addstudent')">Logout </a>
+</div>
+
+<section id="home" class="active">
+<h1>Welcome to the Attendance System</h1>
+<p>Use the navigation bar to manage attendance and student records.</p>
+</section>
+
+<section id="attendance">
+<h1>Attendance List</h1>
+<table>
+<tr>
+<th>Student ID</th>
+<th>Last Name</th>
+<th>First Name</th>
+<th>Course</th>
+<th>Session Date</th>
+<th>Present</th>
+<th>Participated</th>
+</tr>
+<tr>
+<td>101</td><td>Smith</td><td>John</td><td>Web Dev</td><td>2025-10-25</td><td>Yes</td><td>Yes</td>
+</tr>
+<tr>
+<td>102</td><td>Doe</td><td>Jane</td><td>Web Dev</td><td>2025-10-25</td><td>No</td><td>Yes</td>
+</tr>
+<tr>
+<td>103</td><td>Ali</td><td>Yasmine</td><td>Web Dev</td><td>2025-10-25</td><td>Yes</td><td>No</td>
+</tr>
+</table>
+</section>
+
+<section id="addstudent">
+<h1>Add New Student</h1>
+<div id="message" style="margin: 20px auto; padding: 10px; background: #d4edda; color: #155724; border-radius: 4px; display: none;"></div>
+<form id="addStudentForm">
+<label>Student ID</label>
+<input type="text" name="id" id="studentId" required>
+<label>Last Name</label>
+<input type="text" name="lastname" id="lastName" required>
+<label>First Name</label>
+<input type="text" name="firstname" id="firstName" required>
+<label>Email</label>
+<input type="email" name="email" id="email" required>
+<label>Course</label>
+<select name="course" id="course" required>
+<option value="">Select a course</option>
+<option value="Web Dev">Web Development</option>
+<option value="Data Science">Data Science</option>
+<option value="Mobile Dev">Mobile Development</option>
+<option value="AI/ML">Artificial Intelligence</option>
+<option value="Cybersecurity">Cybersecurity</option>
+</select>
+<input type="submit" value="Add Student">
+</form>
+</section>
+
+<script>
+let students = JSON.parse(localStorage.getItem('students')) || [];
+
+if (students.length === 0) {
+    students = [
+        {id: '232331000031', lastName: 'brahimi', firstName: 'yassine', email: 'brahmi8@email.com', course: 'Web Dev'},
+        {id: '232331000131', lastName: 'bougara', firstName: 'madjid', email: 'bougara4@email.com', course: 'Web Dev'},
+        {id: '232331000231', lastName: 'ronaldo', firstName: 'cristiano', email: 'cr7@email.com', course: 'Web Dev'}
+    ];
+    localStorage.setItem('students', JSON.stringify(students));
+}
+
+function showSection(id){
+    document.querySelectorAll('section').forEach(s=>s.classList.remove('active'))
+    document.getElementById(id).classList.add('active')
+    if (id === 'attendance') updateTable();
+}
+
+function addStudent(event) {
+    event.preventDefault();
+    
+    const newStudent = {
+        id: document.getElementById('studentId').value,
+        lastName: document.getElementById('lastName').value,
+        firstName: document.getElementById('firstName').value,
+        email: document.getElementById('email').value,
+        course: document.getElementById('course').value
+    };
+    
+    students.push(newStudent);
+    localStorage.setItem('students', JSON.stringify(students));
+    
+    document.getElementById('message').textContent = 'Student added successfully!';
+    document.getElementById('message').style.display = 'block';
+    document.getElementById('addStudentForm').reset();
+}
+
+function updateTable() {
+    const table = document.querySelector('#attendance table');
+    table.innerHTML = `
+        <tr>
+            <th>Student ID</th>
+            <th>Last Name</th>
+            <th>First Name</th>
+            <th>Course</th>
+            <th>Session Date</th>
+            <th>Present</th>
+            <th>Participated</th>
+        </tr>
+    `;
+    
+    students.forEach(student => {
+        const row = table.insertRow();
+        row.innerHTML = `
+            <td>${student.id}</td>
+            <td>${student.lastName}</td>
+            <td>${student.firstName}</td>
+            <td>${student.course}</td>
+            <td>2025-10-25</td>
+            <td>Yes</td>
+            <td>Yes</td>
+        `;
+    });
+}
+
+document.getElementById('addStudentForm').addEventListener('submit', addStudent);
+updateTable();
+</script>
+</body>
+</html>
