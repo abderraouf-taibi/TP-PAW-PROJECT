@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AWP - Tutorial 2 Solutions (Exercises 1-5)</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body{font-family: Arial,Helvetica,sans-serif;margin:20px;background:#f7f7f7}
+    table{border-collapse:collapse;width:100%;background:#fff}
+    
+    th,td{border:1px solid #ddd;padding:6px;text-align:center}
+    th{background:#eee}
+    .green{background:#dff0d8}
+    .yellow{background:#fff8c4}
+    .red{background:#f2dede}
+    .error{color:#c00;font-size:0.9em;margin-top:4px}
+    .form-row{display:block;gap:10px;align-items:flex-start;margin-bottom:8px}
+    label{display:block;font-weight:600}
+    input[type=text], input[type=email]{padding:6px;width:200px}
+    .controls{margin:12px 0}
+    #messageBox{margin-top:8px;color:green;font-weight:600}
+    tr.hovered{outline:3px solid rgba(0,123,255,0.15)}
+    .btn{padding:8px 12px;border:none;border-radius:6px;cursor:pointer}
+    .btn-primary{background:#007bff;color:#fff}
+    .btn-secondary{background:#6c757d;color:#fff}
+    #reportSection{margin-top:16px;background:#fff;padding:12px;border:1px solid #ddd}
+    .small{font-size:0.9em;color:#555}
+  </style>
+</head>
+<body>
+
+  <section id="addStudent">
+    <h3>Add Student</h3>
+    <form id="studentForm" novalidate>
+      <div class="form-row">
+        <div>
+          <label for="studentId">Student ID</label>
+          <input id="studentId" name="studentId" type="text" />
+          <div id="err-id" class="error" aria-live="polite"></div>
+        </div>
+        <div>
+          <label for="lastName">Last Name</label>
+          <input id="lastName" name="lastName" type="text" />
+          <div id="err-last" class="error" aria-live="polite"></div>
+        </div>
+        <div>
+          <label for="firstName">First Name</label>
+          <input id="firstName" name="firstName" type="text" />
+          <div id="err-first" class="error" aria-live="polite"></div>
+        </div>
+        <div>
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" />
+          <div id="err-email" class="error" aria-live="polite"></div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button class="btn btn-primary" id="submitStudent" type="submit">Submit</button>
+        <span id="messageBox" role="status" aria-live="polite"></span>
+      </div>
+    </form>
+  </section>
+
+  
+  <h3>Attendance Table (Exercise 1)</h3>
+  <table id="attendanceTable">
+    <thead>
+      <tr>
+        <th>Last Name</th>
+        <th>First Name</th>
+        <th>S1</th><th>S2</th><th>S3</th><th>S4</th><th>S5</th><th>S6</th>
+        <th>P1</th><th>P2</th><th>P3</th><th>P4</th><th>P5</th><th>P6</th>
+        <th>Absences</th>
+        <th>Participation</th>
+        <th>Message</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="lname">Ahmed</td>
+        <td class="fname">Sara</td>
+        <td><input type="checkbox" class="sess" checked></td>
+        <td><input type="checkbox" class="sess" checked></td>
+        <td><input type="checkbox" class="sess"></td>
+        <td><input type="checkbox" class="sess" checked></td>
+        <td><input type="checkbox" class="sess"></td>
+        <td><input type="checkbox" class="sess"></td>
+        <td><input type="checkbox" class="part"></td>
+        <td><input type="checkbox" class="part"></td>
+        <td><input type="checkbox" class="part"></td>
+        <td><input type="checkbox" class="part"></td>
+        <td><input type="checkbox" class="part"></td>
+        <td><input type="checkbox" class="part"></td>
+        <td class="absCell">0</td>
+        <td class="parCell">0</td>
+        <td class="msgCell"> </td>
+      </tr>
+
+      <tr>
+        <td class="lname">Yacine</td>
+        <td class="fname">Ali</td>
+        <td><input type="checkbox" class="sess" checked></td>
+        <td><input type="checkbox" class="sess"></td>
+        <td><input type="checkbox" class="sess" checked></td>
+        <td><input type="checkbox" class="sess" checked></td>
+        <td><input type="checkbox" class="sess" checked></td>
+        <td><input type="checkbox" class="sess" checked></td>
+        <td><input type="checkbox" class="part" checked></td>
+        <td><input type="checkbox" class="part"></td>
+        <td><input type="checkbox" class="part" checked></td>
+        <td><input type="checkbox" class="part" checked></td>
+        <td><input type="checkbox" class="part" checked></td>
+        <td><input type="checkbox" class="part" checked></td>
+        <td class="absCell">0</td>
+        <td class="parCell">0</td>
+        <td class="msgCell"></td>
+      </tr>
+
+      <tr>
+        <td class="lname">Houcine</td>
+        <td class="fname">Rania</td>
+        <td><input type="checkbox" class="sess" checked></td>
+        <td><input type="checkbox" class="sess" checked></td>
+        <td><input type="checkbox" class="sess"></td>
+        <td><input type="checkbox" class="sess" checked></td>
+        <td><input type="checkbox" class="sess" checked></td>
+        <td><input type="checkbox" class="sess"></td>
+        <td><input type="checkbox" class="part" checked></td>
+        <td><input type="checkbox" class="part"></td>
+        <td><input type="checkbox" class="part"></td>
+        <td><input type="checkbox" class="part" checked></td>
+        <td><input type="checkbox" class="part"></td>
+        <td><input type="checkbox" class="part"></td>
+        <td class="absCell">0</td>
+        <td class="parCell">0</td>
+        <td class="msgCell"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div style="margin-top:10px;display:flex;gap:10px;align-items:center;">
+    <button class="btn btn-secondary" id="showReport">Show Report</button>
+    <button class="btn" id="calcBtn">Recalculate</button>
+  </div>
+
+  
+  <section id="reportSection" style="display:none">
+    <h3>Report</h3>
+    <p class="small">Total students: <span id="totalStudents">0</span></p>
+    <p class="small">Students with at least one session present: <span id="studentsPresent">0</span></p>
+    <p class="small">Students with at least one participation: <span id="studentsParticipated">0</span></p>
+    <canvas id="reportChart" width="400" height="200"></canvas>
+  </section>
+
+  <script>
+    
+    function recalcAll(){
+      $('#attendanceTable tbody tr').each(function(){
+        const $tr = $(this);
+        const sessChecks = $tr.find('input.sess');
+        const partChecks = $tr.find('input.part');
+        const presentCount = sessChecks.filter(':checked').length;
+        const partCount = partChecks.filter(':checked').length;
+        const absences = sessChecks.length - presentCount;
+        $tr.find('.absCell').text(absences);
+        $tr.find('.parCell').text(partCount);
+
+        
+        $tr.removeClass('green yellow red');
+        if(absences < 3) $tr.addClass('green');
+        else if(absences <= 4) $tr.addClass('yellow');
+        else $tr.addClass('red');
+
+        
+        let msg = '';
+        if(absences >= 5) msg = 'Excluded - too many absences - You need to participate more';
+        else if(absences >=3) msg = 'Warning - attendance low - You need to participate more';
+        else {
+          if(partCount >= 4) msg = 'Good attendance - Excellent participation';
+          else msg = 'Good attendance - Needs more participation';
+        }
+        $tr.find('.msgCell').text(msg);
+      });
+    }
+
+    
+    $(document).ready(function(){
+      recalcAll();
+
+      
+    $('#attendanceTable').on('change','input[type=checkbox]',function(){
+        recalcAll();
+      });
+
+      
+      function validateForm(){
+        let ok = true;
+        
+        $('#err-id,#err-last,#err-first,#err-email').text('');
+        const id = $('#studentId').val().trim();
+        const last = $('#lastName').val().trim();
+        const first = $('#firstName').val().trim();
+        const email = $('#email').val().trim();
+
+        if(id === ''){ $('#err-id').text('Student ID cannot be empty'); ok = false; }
+        else if(!/^\d+$/.test(id)){ $('#err-id').text('Student ID must contain only numbers'); ok = false; }
+
+        if(last === ''){ $('#err-last').text('Last name cannot be empty'); ok = false; }
+        else if(!/^[A-Za-zÀ-ÖØ-öø-ÿ\-\s]+$/.test(last)){ $('#err-last').text('Last name must contain only letters'); ok = false; }
+
+        if(first === ''){ $('#err-first').text('First name cannot be empty'); ok = false; }
+        else if(!/^[A-Za-zÀ-ÖØ-öø-ÿ\-\s]+$/.test(first)){ $('#err-first').text('First name must contain only letters'); ok = false; }
+
+        if(email === ''){ $('#err-email').text('Email cannot be empty'); ok = false; }
+        else if(!/^\S+@\S+\.\S+$/.test(email)){ $('#err-email').text('Please enter a valid email'); ok = false; }
+
+        return ok;
+      }
+
+      
+      $('#studentForm').on('submit',function(e){
+        e.preventDefault();
+        $('#messageBox').text('');
+        if(!validateForm()) return; 
+
+        const last = $('#lastName').val().trim();
+        const first = $('#firstName').val().trim();
+
+        
+        let $tr = $('<tr></tr>');
+        $tr.append(`<td class="lname">${escapeHtml(last)}</td>`);
+        $tr.append(`<td class="fname">${escapeHtml(first)}</td>`);
+        
+        for(let i=0;i<6;i++) $tr.append('<td><input type="checkbox" class="sess"></td>');
+        
+        for(let i=0;i<6;i++) $tr.append('<td><input type="checkbox" class="part"></td>');
+        $tr.append('<td class="absCell">0</td>');
+        $tr.append('<td class="parCell">0</td>');
+        $tr.append('<td class="msgCell"></td>');
+
+        $('#attendanceTable tbody').append($tr);
+        recalcAll();
+        $('#messageBox').text('Student added successfully!');
+        
+        $('#studentForm')[0].reset();
+
+        
+        setTimeout(()=>$('#messageBox').text(''),3000);
+      });
+
+      
+      let reportChart = null;
+      $('#showReport').on('click',function(){
+        const total = $('#attendanceTable tbody tr').length;
+        let studentsPresent = 0;
+        let studentsParticipated = 0;
+        $('#attendanceTable tbody tr').each(function(){
+          const sessChecks = $(this).find('input.sess');
+          const partChecks = $(this).find('input.part');
+          if(sessChecks.filter(':checked').length > 0) studentsPresent++;
+          if(partChecks.filter(':checked').length > 0) studentsParticipated++;
+        });
+        $('#totalStudents').text(total);
+        $('#studentsPresent').text(studentsPresent);
+        $('#studentsParticipated').text(studentsParticipated);
+        $('#reportSection').show();
+
+        
+        const ctx = document.getElementById('reportChart').getContext('2d');
+        const data = {
+          labels: ['Total students','Students present (≥1 session)','Students with participation (≥1)'],
+          datasets: [{label:'Report',data:[total,studentsPresent,studentsParticipated]}]
+        };
+        if(reportChart) reportChart.destroy();
+        reportChart = new Chart(ctx,{type:'bar',data:data,options:{responsive:true,plugins:{legend:{display:false}}}});
+      });
+
+      
+      $('#calcBtn').on('click',recalcAll);
+
+      
+      $('#attendanceTable tbody').on('mouseenter','tr',function(){
+        $(this).addClass('hovered');
+      }).on('mouseleave','tr',function(){
+        $(this).removeClass('hovered');
+      }).on('click','tr',function(){
+        const fullName = $(this).find('.lname').text() + ' ' + $(this).find('.fname').text();
+        const abs = parseInt($(this).find('.absCell').text(),10) || 0;
+        alert('Student: ' + fullName + '\nAbsences: ' + abs);
+      });
+
+
+      
+      function escapeHtml(text){
+        return text.replace(/[&\\"<>]/g,function(a){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\\':'&#039;'}[a];});
+      }
+
+    });
+  </script>
+</body>
+</html>
